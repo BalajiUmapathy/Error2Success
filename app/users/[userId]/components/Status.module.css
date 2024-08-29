@@ -1,0 +1,16 @@
+.stContainer{
+    background-color: lightgray;
+    height: 100vh;
+    padding: 15px;
+}
+
+.mod{
+    border-style: solid;
+    border-color: rgb(193, 164, 111);
+
+    border-width: 2px;
+    border-radius: 10px;  
+    background-color:rgb(227, 226, 232);
+    padding: 13px;
+    font-family: serif;
+}

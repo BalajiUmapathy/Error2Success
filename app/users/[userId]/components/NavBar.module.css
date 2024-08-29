@@ -1,0 +1,50 @@
+/* NavBar.module.css */
+
+.navbar {
+    background-color: #f1f1f1;  /* Light grey background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow for a professional look */
+}
+
+.navList {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    flex-grow: 1;
+    text-align: center;
+    padding: 15px 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;  /* Smooth hover effects */
+}
+
+.navLink {
+    text-decoration: none;
+    color: #000;  /* Black text color */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.navItem:hover {
+    background-color: #e0e0e0;  /* Light grey on hover */
+    transform: translateY(-2px);  /* Slight lift on hover for a modern effect */
+}
+
+.navItem:active {
+    background-color: #ccc;  /* Darker grey when clicked */
+    transform: translateY(0);  /* No lift on active */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navList {
+        flex-direction: column;  /* Stack items vertically on small screens */
+        align-items: center;
+    }
+
+    .navItem {
+        width: 100%;  /* Full-width items */
+    }
+}
