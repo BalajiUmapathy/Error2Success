@@ -10,6 +10,33 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  safelist: [
+  'text-12-regular',
+  'text-12-semibold',
+  'text-14-regular',
+  'text-14-medium',
+  'text-16-regular',
+  'text-16-semibold',
+  'text-18-bold',
+  'text-24-bold',
+  'text-32-bold',
+  'text-36-bold',
+  'bg-light-200',
+  'bg-dark-200',
+  'bg-dark-300',
+  'bg-dark-400',
+  'bg-dark-500',
+  'bg-dark-600',
+  'bg-dark-700',
+  'bg-green-500',
+  'bg-green-600',
+  'bg-blue-500',
+  'bg-blue-600',
+  'bg-red-500',
+  'bg-red-600',
+  'bg-red-700',
+],
+
   prefix: "",
   theme: {
     container: {
@@ -79,3 +106,5 @@ const config = {
 } satisfies Config;
 
 export default config;
+
+

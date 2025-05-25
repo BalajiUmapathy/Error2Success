@@ -1,0 +1,73 @@
+.filters-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-bar {
+  flex: 1;
+  background-color: #e5e7eb;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.search-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+  margin-right: 0.5rem;
+}
+
+.search-input {
+  background: transparent;
+  width: 100%;
+  outline: none;
+  color: #374151;
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+}
+
+.status-filter {
+  position: relative;
+  background-color: #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+}
+
+.status-dropdown {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #374151;
+  font-weight: 500;
+  appearance: none;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+.calendar-btn {
+  background-color: #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #6b7280;
+}
