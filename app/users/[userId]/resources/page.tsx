@@ -6,14 +6,25 @@ import { useRouter, useParams } from 'next/navigation';
 import { getResources } from '@/store/resourceStore';
 import Nav from '../project/components/Nav'; // Import Nav component
 
+// Define the Resource interface
+interface Resource {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
+  quantity: number;
+  project: string;
+}
+
 const ResourcePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [resourceList, setResourceList] = useState([]);
+  const [resourceList, setResourceList] = useState<Resource[]>([]);
   const router = useRouter();
   const { userId } = useParams();
 
   console.log('ResourcePage: userId from useParams:', userId);
+
 
   useEffect(() => {
     setResourceList(getResources());
