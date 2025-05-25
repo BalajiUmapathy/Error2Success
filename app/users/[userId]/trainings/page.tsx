@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation'; // Added useRouter
 import { useState } from 'react';
 import TrainingsPage from './components/TrainingsPage'; 
 import Nav from '../project/components/Nav';
@@ -10,6 +10,11 @@ import styles from './trainings.module.css';
 export default function Page() {
   const { userId } = useParams();
   const userIdStr = Array.isArray(userId) ? userId[0] : userId;
+  const router = useRouter(); // Initialize useRouter
+
+  const handleLogout = () => {
+    router.push('/'); // Navigate to the login page
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -34,7 +39,9 @@ export default function Page() {
               ></path>
             </svg>
           </div>
-          <button className={styles.logoutBtn}>Logout</button>
+          <button className={styles.logoutBtn} onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </header>
 

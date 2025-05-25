@@ -131,7 +131,7 @@ export default function ProjectsPage() {
                 ></path>
               </svg>
             </div>
-            <button className="logout-btn">Logout</button>
+            {/* <button className="logout-btn">Logout</button> */}
           </div>
         </div>
       </header>

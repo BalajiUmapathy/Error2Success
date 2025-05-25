@@ -25,7 +25,7 @@ export default function Home() {
                 ></path>
               </svg>
             </div>
-            <button className="logout-btn">Logout</button>
+            {/* <button className="logout-btn" >Logout</button> */}
           </div>
         </div>
       </header>
