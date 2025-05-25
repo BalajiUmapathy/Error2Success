@@ -9,7 +9,7 @@ export default function AddTaskPage() {
   const router = useRouter();
 
   // Log userId to verify it's being retrieved correctly
-  console.log('userId from useParams:', userId);
+  console.log('AddTaskPage: userId from useParams:', userId);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -32,8 +32,9 @@ export default function AddTaskPage() {
     
     // Generate a new taskId (increment the highest existing ID)
     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    console.log('AddTaskPage: Existing tasks in localStorage before adding:', storedTasks); // Debug
     const newTaskId = storedTasks.length > 0
-      ? (Math.max(...storedTasks.map(t => parseInt(t.taskId))) + 1).toString()
+      ? (Math.max(...storedTasks.map(t => parseInt(t.taskId || 0))) + 1).toString()
       : "1";
 
     // Create the new task
@@ -44,26 +45,31 @@ export default function AddTaskPage() {
     };
 
     // Debug: Log the new task and updated tasks
-    console.log('New Task to be added:', newTask);
+    console.log('AddTaskPage: New Task to be added:', newTask);
     const updatedTasks = [...storedTasks, newTask];
-    console.log('Updated Tasks before saving to localStorage:', updatedTasks);
+    console.log('AddTaskPage: Updated Tasks before saving to localStorage:', updatedTasks);
 
     // Add the new task to the existing tasks in localStorage
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    try {
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+      console.log('AddTaskPage: Tasks in localStorage after saving:', JSON.parse(localStorage.getItem('tasks'))); // Debug
+    } catch (error) {
+      console.error('AddTaskPage: Error saving to localStorage:', error);
+    }
 
-    // Redirect to the Tasks page route
-    router.push(`/users/${userId}/tasks`);
+    // Redirect to the Tasks page with a query parameter to force reload
+    console.log('AddTaskPage: Redirecting to Tasks page with refresh=true');
+    router.push(`/users/${userId}/tasks?refresh=true`);
   };
 
   // Handle Add Another Task button click
   const handleAddAnotherTask = () => {
-    console.log('Attempting to navigate with userId:', userId); // Debug navigation
+    console.log('AddTaskPage: Attempting to navigate with userId:', userId); // Debug navigation
     if (userId) {
       router.push(`/users/${userId}/tasks/addTask`);
     } else {
-      console.warn('User ID not available');
+      console.warn('AddTaskPage: User ID not available');
       router.push('/login');
-    
     }
   };
 

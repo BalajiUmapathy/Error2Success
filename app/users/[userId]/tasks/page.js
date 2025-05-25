@@ -1,12 +1,11 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Nav from '../project/components/Nav';
 import Filters from '../project/components/Filters';
 import Task from './components/Task';
 import './tasks.css';
 
-// Static tasks array (initial data)
 const initialTasks = [
   {
     title: "Inspect Flyover Construction",
@@ -40,7 +39,40 @@ const initialTasks = [
     description: "Monitor the progress of the drainage system upgrade in Adyar.",
     taskId: "4",
   },
+  {
+    title: "Assess Bridge Structural Integrity",
+    location: "Chennai Saidapet",
+    status: "Pending",
+    deadline: "5th September 2025",
+    description: "Perform an assessment of the structural integrity of the bridge near Saidapet.",
+    taskId: "5",
+  },
+  {
+    title: "Finalize Tender for Bypass Road",
+    location: "Chennai Tambaram",
+    status: "Ongoing",
+    deadline: "28th July 2024",
+    description: "Finalize the tender documents and vendor selection for Tambaram bypass road project.",
+    taskId: "6",
+  },
+  {
+    title: "Evaluate Stormwater System",
+    location: "Chennai Perambur",
+    status: "Completed",
+    deadline: "12th March 2024",
+    description: "Evaluate the newly installed stormwater system in Perambur for functionality and compliance.",
+    taskId: "7",
+  },
+  {
+    title: "Plan Pedestrian Skywalk",
+    location: "Chennai Guindy",
+    status: "Pending",
+    deadline: "22nd December 2025",
+    description: "Plan the design and execution strategy for a pedestrian skywalk in Guindy.",
+    taskId: "8",
+  },
 ];
+
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -48,36 +80,46 @@ export default function TasksPage() {
   const [statusFilter, setStatusFilter] = useState('All');
   const router = useRouter();
   const { userId } = useParams();
+  const searchParams = useSearchParams();
 
   // Log userId to verify it's being retrieved correctly
-  console.log('userId from useParams:', userId);
+  console.log('TasksPage: userId from useParams:', userId);
 
   // Function to load tasks from localStorage and merge with initialTasks
-  const loadTasks = () => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    
-    // Check for duplicates by taskId and merge initialTasks with storedTasks
-    const combinedTasks = [...initialTasks];
-    storedTasks.forEach((storedTask) => {
-      const exists = combinedTasks.some(
-        (task) => task.taskId === storedTask.taskId
-      );
-      if (!exists) {
-        combinedTasks.push(storedTask);
-      }
-    });
+  const loadTasks = useCallback(() => {
+    try {
+      const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      console.log('TasksPage: Stored tasks from localStorage:', storedTasks); // Debug
+      
+      // Check for duplicates by taskId and merge initialTasks with storedTasks
+      const combinedTasks = [...initialTasks];
+      storedTasks.forEach((storedTask) => {
+        const exists = combinedTasks.some(
+          (task) => task.taskId === storedTask.taskId
+        );
+        if (!exists) {
+          combinedTasks.push(storedTask);
+        }
+      });
 
-    setTasks(combinedTasks);
-  };
+      console.log('TasksPage: Combined tasks:', combinedTasks); // Debug
+      setTasks(combinedTasks);
+    } catch (error) {
+      console.error('TasksPage: Error loading tasks from localStorage:', error);
+      setTasks([...initialTasks]); // Fallback to initialTasks
+    }
+  }, []);
 
   // Load tasks on mount and whenever userId changes
   useEffect(() => {
+    console.log('TasksPage: Initial load or userId changed, loading tasks');
     loadTasks();
-  }, [userId]);
+  }, [userId, loadTasks]);
 
   // Listen for route changes to refresh the task list
   useEffect(() => {
     const handleRouteChange = () => {
+      console.log('TasksPage: Route change detected, reloading tasks');
       loadTasks();
     };
 
@@ -88,15 +130,25 @@ export default function TasksPage() {
     return () => {
       router.events?.off('routeChangeComplete', handleRouteChange);
     };
-  }, [router.events]);
+  }, [router.events, loadTasks]);
+
+  // Reload tasks if the 'refresh' query parameter is present
+  useEffect(() => {
+    const refresh = searchParams.get('refresh');
+    console.log('TasksPage: Refresh query parameter:', refresh); // Debug
+    if (refresh === 'true') {
+      console.log('TasksPage: Refresh query parameter detected, reloading tasks');
+      loadTasks();
+    }
+  }, [searchParams, loadTasks]);
 
   // Handle Add Task button click
   const handleAddTask = () => {
-    console.log('Attempting to navigate with userId:', userId); // Debug navigation
+    console.log('TasksPage: Attempting to navigate with userId:', userId); // Debug navigation
     if (userId) {
       router.push(`/users/${userId}/tasks/addTask`);
     } else {
-      console.warn('User ID not available');
+      console.warn('TasksPage: User ID not available');
       router.push('/login');
     }
   };

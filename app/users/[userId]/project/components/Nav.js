@@ -1,37 +1,36 @@
 "use client";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import '../Nav.css';
 
 export default function Nav() {
   const router = useRouter();
+  const { userId } = useParams(); // Get userId from URL params
+
+  // Log userId to verify it's being retrieved correctly
+  console.log('Nav: userId from useParams:', userId);
+
+  // Define the navigation links with dynamic href values
   const links = [
-    { name: 'Home', href: '/' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'Tasks', href: '/tasks' },
-    { name: 'Resources', href: '/resources' },
-    { name: 'Discussion Forum', href: '/discussion-forum' },
-    { name: 'Trainings', href: '/trainings' },
-    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Home', href: userId ? `/users/${userId}/dashboard`   : '/dashboard' },
+    { name: 'Projects', href: userId ? `/users/${userId}/project` : '/projects' },
+    { name: 'Tasks', href: userId ? `/users/${userId}/tasks` : '/tasks' },
+    { name: 'Resources', href: userId ? `/users/${userId}/resources` : '/resources' },
+    // { name: 'Discussion Forum', href: userId ? `/users/${userId}/discussion-forum` : '/discussion-forum' },
+    { name: 'Trainings', href: userId ? `/users/${userId}/trainings` : '/trainings' },
+    // { name: 'Dashboard', href: userId ? `/users/${userId}/dashboard` : '/dashboard' },
   ];
+
+  // If userId is not available, redirect to login (optional)
+  if (!userId) {
+    console.warn('Nav: userId not available, redirecting to login');
+    router.push('/login');
+    return null; // Prevent rendering until redirect
+  }
 
   return (
     <>
-      {/* Header Section (from Navbar) */}
-      {/* <header className="header-bar">
-        <h1 className="header-title">BuildVerse</h1>
-        <div className="header-actions">
-          <Link href="/dashboard">
-            <button className="header-btn">Dashboard</button>
-          </Link>
-          <Link href="/projects">
-            <button className="header-btn">Projects</button>
-          </Link>
-          <button className="header-btn logout-btn">Logout</button>
-        </div>
-      </header> */}
-
-      {/* Navigation Tabs (from Nav) */}
+      {/* Navigation Tabs */}
       <nav className="nav-bar">
         {links.map((link) => (
           <Link

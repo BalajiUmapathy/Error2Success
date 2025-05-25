@@ -61,13 +61,13 @@ export default function ViewTaskPage() {
       setTask(foundTask);
     } else {
       console.warn('Task not found, redirecting to Tasks page');
-      router.push(`/users/${userId}/tasks`);
+      router.push(`/users/${userId}/tasks?refresh=true`);
     }
   }, [taskId, userId, router]);
 
   // Handle Back to Tasks button click
   const handleBackToTasks = () => {
-    router.push(`/users/${userId}/tasks`);
+    router.push(`/users/${userId}/tasks?refresh=true`);
   };
 
   if (!task) {
